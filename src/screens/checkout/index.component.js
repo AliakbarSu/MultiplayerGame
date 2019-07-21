@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native'
+import UserNav from '../../components/user-nav/index';
+import NavButtonsConroller from '../services/navButtonsConroller'
 
 class CheckoutScreen extends Component {
     constructor(props) {
@@ -8,21 +10,22 @@ class CheckoutScreen extends Component {
     }
 
     onNavigatorEvent = (event) => {
-        if(event.type === "NavBarButtonPress") {
-            if(event.id === "sideDrawerToggle") {
-                this.props.navigator.toggleDrawer({
-                    side: "left"
-                })
-            }
-        }
+        NavButtonsConroller(event, this.props)
     }
+
+    
 
     render() {
         return (
-        
-            <Text>
-                Secure Checkout
-            </Text>
+            <View style={styles.container}>
+                <UserNav style={{flex: 1}}/>
+                <View style={{flex: 7}}>
+                    <Text>
+                        Secure Checkout
+                    </Text>
+                </View>
+            </View>
+            
         )
     }
     

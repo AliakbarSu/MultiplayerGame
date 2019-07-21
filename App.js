@@ -11,6 +11,12 @@ import PointsScreen from './src/screens/points/index.component';
 import {Provider} from 'react-redux';
 import configureStore from './src/services/store/configureStore';
 import SideDrawer from './src/components/sideDrawer/index.component';
+import HomeScreen from './src/screens/home/index.component';
+import StartApp from './src/screens/MainTabs/startMainTabs';
+import PlayModal from './src/components/modals/components/play/index.modal';
+import WonModal from './src/components/modals/components/won/index.modal';
+import LostModal from './src/components/modals/components/lost/index.modal';
+import React from 'react';
 
 const store = configureStore();
 
@@ -25,12 +31,20 @@ Navigation.registerComponent("click.RedeemScreen", () => RedeemScreen, store, Pr
 Navigation.registerComponent("click.SendPointsScreen", () => SendPointsScreen, store, Provider);
 Navigation.registerComponent("click.BuyPointsScreen", () => BuyPointsScreen, store, Provider);
 Navigation.registerComponent("click.ChallengeScreen", () => ChallengeScreen, store, Provider);
-Navigation.registerComponent("click.SideDrawerScreen", () => SideDrawer, store, Provider);
+Navigation.registerComponent("click.SideDrawerScreen", (props) => SideDrawer, store, Provider);
+Navigation.registerComponent("click.HomeScreen", () => HomeScreen, store, Provider);
 
+// Register Modals
+Navigation.registerComponent("click.PlayModal", () => PlayModal, store, Provider);
+Navigation.registerComponent("click.WonModal", () => WonModal, store, Provider);
+Navigation.registerComponent("click.LostModal", () => LostModal, store, Provider);
+
+
+StartApp()
 // Start an App
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'click.AuthScreen',
-    title: "Login"
-  }
-})
+// Navigation.startSingleScreenApp({
+//   screen: {
+//     screen: 'click.AuthScreen',
+//     title: "Login"
+//   }
+// })
