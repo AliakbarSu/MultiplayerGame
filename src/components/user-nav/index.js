@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
       paddingRight: 20,
       paddingTop: 20,
-      paddingBottom: 20
+      paddingBottom: 20,
+      zIndex: 100
     },
     imageContainer: {
         height: 52,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 50,
         marginTop: -39,
         paddingTop: 39,
-        zIndex: -1,
+        zIndex: 99,
         padding: 20
     },
     dropdownItems: {

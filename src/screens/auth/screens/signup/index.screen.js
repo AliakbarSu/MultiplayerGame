@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, Button} from 'react-native'
-import startApp from '../MainTabs/startMainTabs';
 
-class AuthScreen extends Component {
+class SignupScreen extends Component {
     login() {
-        startApp()
     }
     render() {
         
@@ -22,7 +20,7 @@ class AuthScreen extends Component {
     }
 }
 
-export default AuthScreen
+export default SignupScreen
 
 const styles = StyleSheet.create({
     container: {

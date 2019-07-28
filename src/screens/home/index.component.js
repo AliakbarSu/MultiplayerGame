@@ -1,9 +1,23 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import NavButonControll from '../services/navButtonsConroller'
 import UserNav from '../../components/user-nav/index';
+import MapView from 'react-native-maps';
+import { OpenPlayModal, OpenWonModal, OpenLostModal, OpenQuizeModal } from '../services/modals';
 
 class HomeScreen extends Component {
+
+    state = {
+        focusedLocation: {
+            latitude: 37.7900352,
+            longitude: -122.4013726,
+            latitudeDelta: 0.0122,
+            longitudeDelta: 
+                Dimensions.get('window').width /
+                Dimensions.get('window').height * 0.0122
+        }
+    }
+
     constructor(props) {
         super(props)
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -14,34 +28,22 @@ class HomeScreen extends Component {
     }
 
     componentDidMount = () => {
-        console.log(this.props)
-        this.props.navigator.showModal({
-            screen: 'click.CheckoutScreen', // unique ID registered with Navigation.registerScreen
-            title: 'Modal', // title of the screen as appears in the nav bar (optional)
-            passProps: {}, // simple serializable object that will pass as props to the modal (optional)
-            navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
-            navigatorButtons: {
-                leftButtons: [
-                    {
-                        title: "sideDrawer",
-                        id: 'closeModal'
-                    }
-                ]
-            }, // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
-            animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
-            overrideBackPress: false // true / false, (Android only), prevents back button and hardware back button from hiding the dialog on Android, instead the [navigator event](https://wix.github.io/react-native-navigation/#/screen-api?id=setonnavigatoreventcallback) 'backPress' will be sent (optional)
-          });
+        setTimeout(() => {
+            // OpenPlayModal(this.props)
+            // OpenWonModal(this.props)
+            // OpenLostModal(this.props)
+            // OpenQuizeModal(this.props)
+        }, 100)
+        
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <UserNav style={{flex: 1}}/>
-                <View style={{flex: 7}}>
-                    <Text>
-                        Home
-                    </Text>
+                <View style={{flex: 2, zIndex: 100}}>
+                    <UserNav style={{flex: 1, zIndex: 100}}/>
                 </View>
+                <MapView initialRegion={this.state.focusedLocation} style={styles.map}/>
             </View>
         )
     }
@@ -49,14 +51,17 @@ class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
+      height: '100%',
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#F5FCFF',
     },
-    image: {
-        height: 40,
-        width: 40
+    map: {
+        width: '100%',
+        height: '100%',
+        marginTop: -40,
+        zIndex: -1
     }
   });
 

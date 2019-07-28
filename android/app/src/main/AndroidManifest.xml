@@ -21,6 +21,9 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyDsjoGsf_3FyUJtYFi1FI9PYOxhd3bX6c4"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
-import AuthScreen from './src/screens/auth/index.component';
+import LoginScreen from './src/screens/auth/screens/login/index.screen';
+import SignupScreen from './src/screens/auth/screens/signup/index.screen';
 import LeaderBoardScreen from './src/screens/leaderboard/index.componen';
 import CheckoutScreen from './src/screens/checkout/index.component';
 import ProfileScreen from './src/screens/profile/index.component';
@@ -16,13 +17,16 @@ import StartApp from './src/screens/MainTabs/startMainTabs';
 import PlayModal from './src/components/modals/components/play/index.modal';
 import WonModal from './src/components/modals/components/won/index.modal';
 import LostModal from './src/components/modals/components/lost/index.modal';
+import QuizeModal from './src/components/modals/components/quize/index.modal';
+import SettingsDrawer from './src/components/settingsDrawer/index.drawer';
 import React from 'react';
 
 const store = configureStore();
 
 // Register Screens
 
-Navigation.registerComponent("click.AuthScreen", () => AuthScreen, store, Provider);
+Navigation.registerComponent("click.LoginScreen", () => LoginScreen, store, Provider);
+Navigation.registerComponent("click.SignupScreen", () => SignupScreen, store, Provider);
 Navigation.registerComponent("click.LeaderBoardScreen", () => LeaderBoardScreen, store, Provider);
 Navigation.registerComponent("click.CheckoutScreen", () => CheckoutScreen, store, Provider);
 Navigation.registerComponent("click.ProfileScreen", () => ProfileScreen, store, Provider);
@@ -32,19 +36,23 @@ Navigation.registerComponent("click.SendPointsScreen", () => SendPointsScreen, s
 Navigation.registerComponent("click.BuyPointsScreen", () => BuyPointsScreen, store, Provider);
 Navigation.registerComponent("click.ChallengeScreen", () => ChallengeScreen, store, Provider);
 Navigation.registerComponent("click.SideDrawerScreen", (props) => SideDrawer, store, Provider);
+Navigation.registerComponent("click.SettingsDrawer", (props) => SettingsDrawer, store, Provider);
 Navigation.registerComponent("click.HomeScreen", () => HomeScreen, store, Provider);
 
 // Register Modals
 Navigation.registerComponent("click.PlayModal", () => PlayModal, store, Provider);
 Navigation.registerComponent("click.WonModal", () => WonModal, store, Provider);
 Navigation.registerComponent("click.LostModal", () => LostModal, store, Provider);
+Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provider);
 
 
-StartApp()
+
+
+// StartApp()
 // Start an App
-// Navigation.startSingleScreenApp({
-//   screen: {
-//     screen: 'click.AuthScreen',
-//     title: "Login"
-//   }
-// })
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'click.LoginScreen',
+    title: "Login"
+  }
+})

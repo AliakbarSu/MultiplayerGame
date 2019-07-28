@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native'
-import UserNav from '../../components/user-nav/index';
 import NavButtonsConroller from '../services/navButtonsConroller'
 
 class CheckoutScreen extends Component {
@@ -18,8 +17,7 @@ class CheckoutScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <UserNav style={{flex: 1}}/>
-                <View style={{flex: 7}}>
+                <View style={{flex: 1}}>
                     <Text>
                         Secure Checkout
                     </Text>
