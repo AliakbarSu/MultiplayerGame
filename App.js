@@ -7,7 +7,7 @@ import ProfileScreen from './src/screens/profile/index.component';
 import RedeemScreen from './src/screens/redeem/index.component';
 import SendPointsScreen from './src/screens/send-points/index.component';
 import BuyPointsScreen from './src/screens/buy-points/index.component';
-import ChallengeScreen from './src/screens/send-points/index.component';
+import ChallengeScreen from './src/screens/challenge/index.component';
 import PointsScreen from './src/screens/points/index.component';
 import {Provider} from 'react-redux';
 import configureStore from './src/services/store/configureStore';
@@ -18,6 +18,7 @@ import PlayModal from './src/components/modals/components/play/index.modal';
 import WonModal from './src/components/modals/components/won/index.modal';
 import LostModal from './src/components/modals/components/lost/index.modal';
 import QuizeModal from './src/components/modals/components/quize/index.modal';
+import ChallengeRequestModal from './src/components/modals/components/challenge-request/index.modal'
 import SettingsDrawer from './src/components/settingsDrawer/index.drawer';
 import React from 'react';
 
@@ -44,6 +45,7 @@ Navigation.registerComponent("click.PlayModal", () => PlayModal, store, Provider
 Navigation.registerComponent("click.WonModal", () => WonModal, store, Provider);
 Navigation.registerComponent("click.LostModal", () => LostModal, store, Provider);
 Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provider);
+Navigation.registerComponent("click.ChallengeRequestModal", () => ChallengeRequestModal, store, Provider);
 
 
 
@@ -52,7 +54,7 @@ Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provid
 // Start an App
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'click.LoginScreen',
+    screen: 'click.HomeScreen',
     title: "Login"
   }
 })

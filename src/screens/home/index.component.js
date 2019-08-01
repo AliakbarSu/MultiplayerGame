@@ -3,7 +3,7 @@ import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import NavButonControll from '../services/navButtonsConroller'
 import UserNav from '../../components/user-nav/index';
 import MapView from 'react-native-maps';
-import { OpenPlayModal, OpenWonModal, OpenLostModal, OpenQuizeModal } from '../services/modals';
+import { OpenPlayModal, OpenWonModal, OpenLostModal, OpenQuizeModal, OpenChallengeRequest } from '../services/modals';
 
 class HomeScreen extends Component {
 
@@ -33,6 +33,7 @@ class HomeScreen extends Component {
             // OpenWonModal(this.props)
             // OpenLostModal(this.props)
             // OpenQuizeModal(this.props)
+            OpenChallengeRequest(this.props)
         }, 100)
         
     }

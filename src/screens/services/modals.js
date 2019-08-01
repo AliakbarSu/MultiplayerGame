@@ -68,3 +68,20 @@ export const OpenQuizeModal = async (props) => {
         animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
     });
 }
+
+export const OpenChallengeRequest = async (props) => {
+    props.navigator.showModal({
+        screen: 'click.ChallengeRequestModal', // unique ID registered with Navigation.registerScreen
+        title: 'Challenge Request', // title of the screen as appears in the nav bar (optional)
+        navigatorButtons: {
+            leftButtons: [
+                {
+                    icon: await Icon.getImageSource('md-arrow-round-back', 30),
+                    title: "back",
+                    id: 'closeModal'
+                }
+            ]
+        }, // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
+        animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+    });
+}
