@@ -54,7 +54,11 @@ Navigation.registerComponent("click.ChallengeRequestModal", () => ChallengeReque
 // Start an App
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'click.HomeScreen',
-    title: "Login"
+    screen: 'click.ProfileScreen',
+    title: "Home"
+  },
+  appStyle: {
+    navBarBackgroundColor: '#FF821A',
+    navBarTextColor: '#FFFFFF'
   }
 })

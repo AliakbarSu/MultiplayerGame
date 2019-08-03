@@ -33,7 +33,7 @@ class HomeScreen extends Component {
             // OpenWonModal(this.props)
             // OpenLostModal(this.props)
             // OpenQuizeModal(this.props)
-            OpenChallengeRequest(this.props)
+            // OpenChallengeRequest(this.props)
         }, 100)
         
     }

@@ -81,7 +81,10 @@ const startApp = async () => {
                 initialTabIndex: 2, // optional, the default selected bottom tab. Default: 0. On Android, add this to appStyle
             },
             appStyle: {
-                initialTabIndex: 2
+                initialTabIndex: 2,
+                navBarBackgroundColor: '#FF821A',
+                navBarTextColor: '#FFFFFF',
+                navBarButtonColor: '#FFFFFF'
             },
             drawer: {
                 left: {

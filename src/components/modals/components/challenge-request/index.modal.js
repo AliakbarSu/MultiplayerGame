@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, Button, TouchableOpacity} from 'react-native'
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native'
 import NavButonControll from '../../../../screens/services/navButtonsConroller'
+import DefaultButton from '../../../button/index.component'
+import { OpenQuizeModal } from '../../../../screens/services/modals';
 
 class ChallengeRequest extends Component {
     
@@ -13,55 +15,75 @@ class ChallengeRequest extends Component {
         NavButonControll(event, this.props)
     }
 
-    onPlayButtonHandler = () => {
-        alert('challenge Accepted');
+    onAcceptHandler = () => {
+        OpenQuizeModal(this.props)
+    }
+
+    onRejectHandler = () => {
+        this.props.navigator.push({screen: 'click.HomeScreen'})
     }
 
     render() {
-        const PlayButton = (
-            <View style={styles.playButton}>
-                <TouchableOpacity onPress={this.onPlayButtonHandler}>
-                    <Text style={styles.playButtonText}>Play</Text>
-                </TouchableOpacity>
-            </View>
-        )
         return (
             <View style={styles.container}>
-    
-                <View style={styles.counterWrapper}>
-                    <View style={styles.counterRoundBorder}>
-                        <View style={styles.counter}>
-                            <Text style={styles.counterText}>3</Text>
+                <ScrollView contentContainerStyle={{flexGrow : 1}} style={{width: '100%'}}>
+                    <View style={styles.wrapper}>
+                        <View style={styles.header}>
+                            <View style={styles.gamePointsWrapper}>
+                                <Text style={styles.gamePointsHeader}>Points</Text>
+                                <Text style={styles.gamePointsText}>3434</Text>
+                            </View>
+                            <View style={styles.counterWrapper}>
+                                <View style={styles.counterRoundBorder}>
+                                    <View style={styles.counter}>
+                                        <Text style={styles.counterText}>3</Text>
+                                    </View>
+                                </View>
+                                <Text style={styles.counterCaption}>MIN</Text>
+                            </View>
+                            <View style={styles.gameLevelWrapper}>
+                                <Text style={styles.gameLevelHeader}>Level</Text>
+                                <Text style={styles.gameLevelText}>4</Text>
+                            </View>
+                        </View>
+                        
+                        <View style={styles.players}>
+                            <View style={styles.playersPlayer}>
+                                <Text style={styles.playersName}>Aliakbar Sultani</Text>
+                                <View style={styles.playersAvatarWrapper}>
+                                    <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"}}/>
+                                </View>
+                                <View style={styles.playersScoreWrapper}>
+                                    <Text style={styles.playersScoreText}>Win: 22</Text>
+                                    <Text style={styles.playersScoreText}>Lost: 23</Text>
+                                </View>
+                            </View>
+                            <Text style={styles.vsText}>VS</Text>
+                            <View style={styles.playersPlayer}>
+                                <Text style={styles.playersName}>John Doe</Text>
+                                <View style={styles.playersAvatarWrapper}>
+                                    <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560800161/restaurant/backgrounds/louis-hansel-1160001-unsplash.jpg"}}/>
+                                </View>
+                                <View style={styles.playersScoreWrapper}>
+                                    <Text style={styles.playersScoreText}>Win: 22</Text>
+                                    <Text style={styles.playersScoreText}>Lost: 23</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.infoWrapper}>
+                            <Text style={styles.infoText}>
+                                Aliakbar.su has challeged you to play with him
+                            </Text>
+                        </View>
+                        <View style={styles.playButtonWrapper}>
+                            <DefaultButton 
+                                style={[styles.playButton, styles.playButtonGreen]} 
+                                textStyle={{color: '#FFFFFF'}}
+                                onPress={this.onAcceptHandler}>Accept</DefaultButton>    
+                            <DefaultButton style={styles.playButton} onPress={this.onRejectHandler}>Reject</DefaultButton>
                         </View>
                     </View>
-                    <Text style={styles.counterCaption}>MIN</Text>
-                </View>
-                <View style={styles.players}>
-                    <View style={styles.playersPlayer}>
-                        <Text style={styles.playersName}>Aliakbar Sultani</Text>
-                        <View style={styles.playersAvatarWrapper}>
-                            <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"}}/>
-                        </View>
-                        <View style={styles.playersScoreWrapper}>
-                            <Text style={styles.playersScoreText}>Win: 22</Text>
-                            <Text style={styles.playersScoreText}>Lost: 23</Text>
-                        </View>
-                    </View>
-                    <Text style={styles.vsText}>VS</Text>
-                    <View style={styles.playersPlayer}>
-                        <Text style={styles.playersName}>John Doe</Text>
-                        <View style={styles.playersAvatarWrapper}>
-                            <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560800161/restaurant/backgrounds/louis-hansel-1160001-unsplash.jpg"}}/>
-                        </View>
-                        <View style={styles.playersScoreWrapper}>
-                            <Text style={styles.playersScoreText}>Win: 22</Text>
-                            <Text style={styles.playersScoreText}>Lost: 23</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.playButtonWrapper}>
-                    {PlayButton}
-                </View>
+                </ScrollView>
             </View>
         )
     }
@@ -73,11 +95,50 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#FFAE6B',
-      width: '100%'
+      backgroundColor: '#FFAE6B'
+    },
+    wrapper: {
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingTop: 10
+    },
+    gamePointsWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "30%"
+    },
+    gamePointsHeader: {
+        textTransform: 'uppercase',
+        color: '#FFFFFF'
+    },
+    gamePointsText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 19
+    },
+    gameLevelWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "30%"
+    },
+    gameLevelHeader: {
+        textTransform: 'uppercase',
+        color: '#FFFFFF'
+    },
+    gameLevelText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 19
     },
     counterWrapper: {
-        width: '100%',
+        width: '40%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -164,6 +225,18 @@ const styles = StyleSheet.create({
         padding: 5,
         fontWeight: 'bold'
     },
+    infoWrapper: {
+        width: '70%',
+        paddingTop: 10,
+        justifyContent: 'center'
+    },
+    infoText: {
+        width: '100%',
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
     playButtonWrapper: {
         flex: 4,
         width: '100%',
@@ -172,16 +245,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     playButton: {
-        backgroundColor: '#FFFFFF',
-        padding: 22,
-        borderRadius: 50,
-        width: '80%'
+        marginTop: 10,
+        paddingTop: 5,
+        paddingBottom: 5
     },
-    playButtonText: {
-        color: '#FF7400',
-        textAlign: 'center',
-        fontSize: 30,
-        fontWeight: 'bold'
+    playButtonGreen: {
+        backgroundColor: '#1AFD1A'
     }
   });
   
