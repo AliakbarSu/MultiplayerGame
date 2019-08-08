@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import NavButonControll from '../services/navButtonsConroller'
-import ImagePicker from '../../services/imagePicker'
+import ImagePicker from '../../services/imagePicker';
+import {connect} from 'react-redux';
+import {UpdateAvatar} from '../../services/store/actions/profile'
 
 class ProfileScreen extends Component {
     
@@ -29,14 +31,8 @@ class ProfileScreen extends Component {
             } else if(res.err) {
                 console.log('An error occured')
             } else {
-                this.setState(prevState => {
-                    return {
-                        ...prevState,
-                        userDetails: {
-                            avatar: {uri: res.uri}
-                        }
-                    }
-                })
+                this.props.UpdateAvatar(res)
+                
             }
         })
     }
@@ -46,7 +42,7 @@ class ProfileScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.User}>
                     <View style={styles.UserAvatarWrapper}>
-                        <Image style={styles.UserAvatar} source={this.state.userDetails.avatar}/>
+                        <Image style={styles.UserAvatar} source={this.props.profile.avatar}/>
                     </View>
                     <TouchableOpacity onPress={this.onEditPhotoHandler}>
                         <Text style={styles.UserAvatarEditText}>Edit Photo</Text>
@@ -58,7 +54,7 @@ class ProfileScreen extends Component {
                             <Text style={styles.userDetailsInputHeaderText}>First Name</Text>
                         </View>
                         <View style={styles.userDetailsInputField}>
-                            <Text style={styles.userDetailsInputFieldText}>Ali</Text>
+                            <Text style={styles.userDetailsInputFieldText}>{this.props.profile.firstName}</Text>
                         </View>
                     </View>
                     <View style={styles.userDetailsInputs}>
@@ -66,15 +62,15 @@ class ProfileScreen extends Component {
                             <Text style={styles.userDetailsInputHeaderText}>Last Name</Text>
                         </View>
                         <View style={styles.userDetailsInputField}>
-                            <Text style={styles.userDetailsInputFieldText}>Sultani</Text>
+                            <Text style={styles.userDetailsInputFieldText}>{this.props.profile.lastName}</Text>
                         </View>
                     </View>
                     <View style={styles.userDetailsInputs}>
                         <View style={styles.userDetailsInputHeader}>
-                            <Text style={styles.userDetailsInputHeaderText}>Last Name</Text>
+                            <Text style={styles.userDetailsInputHeaderText}>Username</Text>
                         </View>
                         <View style={styles.userDetailsInputField}>
-                            <Text style={styles.userDetailsInputFieldText}>Sultani</Text>
+                            <Text style={styles.userDetailsInputFieldText}>{this.props.profile.username}</Text>
                         </View>
                     </View>
                     <View style={styles.userDetailsInputs}>
@@ -82,7 +78,7 @@ class ProfileScreen extends Component {
                             <Text style={styles.userDetailsInputHeaderText}>Email Address</Text>
                         </View>
                         <View style={styles.userDetailsInputField}>
-                            <Text style={styles.userDetailsInputFieldText}>Testing@123.com</Text>
+                            <Text style={styles.userDetailsInputFieldText}>{this.props.profile.email}</Text>
                         </View>
                     </View>
                 </View>
@@ -91,6 +87,20 @@ class ProfileScreen extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        UpdateAvatar: (image) => dispatch(UpdateAvatar(image))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -150,5 +160,5 @@ const styles = StyleSheet.create({
     }
   });
 
-export default ProfileScreen;
+
   

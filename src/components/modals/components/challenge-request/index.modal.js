@@ -3,6 +3,8 @@ import {View, Text, Image, StyleSheet, ScrollView} from 'react-native'
 import NavButonControll from '../../../../screens/services/navButtonsConroller'
 import DefaultButton from '../../../button/index.component'
 import { OpenQuizeModal } from '../../../../screens/services/modals';
+import { connect } from 'react-redux';
+import { RejectChallengeRequest, AcceptChallengeRequest } from '../../../../services/store/actions/game';
 
 class ChallengeRequest extends Component {
     
@@ -16,10 +18,12 @@ class ChallengeRequest extends Component {
     }
 
     onAcceptHandler = () => {
+        this.props.acceptRequest()
         OpenQuizeModal(this.props)
     }
 
     onRejectHandler = () => {
+        this.props.rejectRequest()
         this.props.navigator.push({screen: 'click.HomeScreen'})
     }
 
@@ -31,19 +35,19 @@ class ChallengeRequest extends Component {
                         <View style={styles.header}>
                             <View style={styles.gamePointsWrapper}>
                                 <Text style={styles.gamePointsHeader}>Points</Text>
-                                <Text style={styles.gamePointsText}>3434</Text>
+                                <Text style={styles.gamePointsText}>{this.props.game.challengeRequest.points}</Text>
                             </View>
                             <View style={styles.counterWrapper}>
                                 <View style={styles.counterRoundBorder}>
                                     <View style={styles.counter}>
-                                        <Text style={styles.counterText}>3</Text>
+                                        <Text style={styles.counterText}>{this.props.game.challengeRequest.time}</Text>
                                     </View>
                                 </View>
                                 <Text style={styles.counterCaption}>MIN</Text>
                             </View>
                             <View style={styles.gameLevelWrapper}>
                                 <Text style={styles.gameLevelHeader}>Level</Text>
-                                <Text style={styles.gameLevelText}>4</Text>
+                                <Text style={styles.gameLevelText}>{this.props.game.challengeRequest.level}</Text>
                             </View>
                         </View>
                         
@@ -60,19 +64,19 @@ class ChallengeRequest extends Component {
                             </View>
                             <Text style={styles.vsText}>VS</Text>
                             <View style={styles.playersPlayer}>
-                                <Text style={styles.playersName}>John Doe</Text>
+                                <Text style={styles.playersName}>{this.props.game.challengeRequest.opponent.name}</Text>
                                 <View style={styles.playersAvatarWrapper}>
-                                    <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560800161/restaurant/backgrounds/louis-hansel-1160001-unsplash.jpg"}}/>
+                                    <Image style={styles.playersAvatar} source={this.props.game.challengeRequest.opponent.avatar}/>
                                 </View>
                                 <View style={styles.playersScoreWrapper}>
-                                    <Text style={styles.playersScoreText}>Win: 22</Text>
-                                    <Text style={styles.playersScoreText}>Lost: 23</Text>
+                                    <Text style={styles.playersScoreText}>Win: {this.props.game.challengeRequest.opponent.win}</Text>
+                                    <Text style={styles.playersScoreText}>Lost: {this.props.game.challengeRequest.opponent.lost}</Text>
                                 </View>
                             </View>
                         </View>
                         <View style={styles.infoWrapper}>
                             <Text style={styles.infoText}>
-                                Aliakbar.su has challeged you to play with him
+                                {this.props.game.challengeRequest.opponent.name} has challenged you.
                             </Text>
                         </View>
                         <View style={styles.playButtonWrapper}>
@@ -89,6 +93,23 @@ class ChallengeRequest extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        game: state.game,
+        gameStatus: state.gameStatus,
+        user: state.user
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        rejectRequest: () => dispatch(RejectChallengeRequest()),
+        acceptRequest: () => dispatch(AcceptChallengeRequest())
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ChallengeRequest);
 
 const styles = StyleSheet.create({
     container: {
@@ -254,4 +275,3 @@ const styles = StyleSheet.create({
     }
   });
   
-export default ChallengeRequest;

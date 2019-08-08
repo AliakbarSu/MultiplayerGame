@@ -1,8 +1,21 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import mainReducer from './reducers/root';
+import gameStatusReducer from './reducers/gamestatus';
+import userReducer from './reducers/user';
+import gameReducer from './reducers/game';
+import authReducer from './reducers/auth';
+import UIReducer from './reducers/UI';
+import ProfileReducer from './reducers/profile';
 
 const rootReducer = combineReducers({
-    root: mainReducer
+    root: mainReducer,
+    gameStatus: gameStatusReducer,
+    user: userReducer,
+    game: gameReducer,
+    auth: authReducer,
+    profile: ProfileReducer,
+    UI: UIReducer
 })
 
 let composeEnhancers = compose;
@@ -12,7 +25,7 @@ if(__DEV__) {
 }
 
 const configureStore = () => {
-    return createStore(rootReducer, composeEnhancers());
+    return createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 }
 
 export default configureStore;

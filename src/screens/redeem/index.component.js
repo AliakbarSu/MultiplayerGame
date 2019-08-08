@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, TextInput} from 'react-native'
+import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import NavButonControll from '../services/navButtonsConroller'
+import {connect} from 'react-redux';
+import DefaultButton from '../../components/button/index.component'
+import {Redeem} from '../../services/store/actions/redeem'
 
 class RedeemScreen extends Component {
     
@@ -29,6 +32,13 @@ class RedeemScreen extends Component {
         })
     }
 
+    onRedeemHandler = () => {
+        if((this.props.profile.points - this.state.input.value) <= 0) {
+            return alert('You don\'t have enough points to redeem');
+        }
+        this.props.redeem(this.state.input.value)
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -46,9 +56,7 @@ class RedeemScreen extends Component {
                         </View>
                     </View>
                     <View style={styles.buttonWrapper}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>Redeem</Text>
-                        </View>
+                       <DefaultButton onPress={this.onRedeemHandler} style={styles.button} textStyle={{color: '#FFFFFF'}}>Redeem</DefaultButton>
                     </View>
                </View>
             </View>
@@ -56,6 +64,21 @@ class RedeemScreen extends Component {
     }
     
 }
+
+
+const mapStateToProps = state => {
+    return {
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        redeem: (numOfPoints) => dispatch(Redeem(numOfPoints))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(RedeemScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -126,7 +149,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#FF821A',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        color: '#FFFFFF'
     },
     buttonText: {
         color: '#FFFFFF',
@@ -136,6 +160,4 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
   });
-
-export default RedeemScreen;
   

@@ -2,38 +2,45 @@ import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import NavButonControll from '../../../../screens/services/navButtonsConroller'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux';
+import { SubmitAnswers } from '../../../../services/store/actions/game';
+import { OpenWonModal, OpenLostModal } from '../../../../screens/services/modals';
 
 class QuizeModal extends Component {
     state = {
-        quize: {
-            questinon: 'Who played Miranda’s boyfriend Robert?',
-            answers: [
-                {
-                    id: 'an1',
-                    text: 'Will Smith'
-                },
-                {
-                    id: 'an2',
-                    text: 'Jehn Cerbelt'
-                },
-                {
-                    id: 'an3',
-                    text: 'Bavid Eiganberg'
-                },
-                {
-                    id: 'an4',
-                    text: 'John william'
-                }
-            ]
+        currentQuestion: {
+            question: '',
+            answers: []
         },
         selectedAnswer: {
             id: '',
             text: ''
-        }
+        },
+        answers: []
     }
     constructor(props){
         super(props)
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+
+    componentDidMount = () => {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                currentQuestion: this.props.game.currentGame.questions[0]
+            }
+        })
+
+    }
+
+    componentDidUpdate = (props) => {
+        if(this.props.game.currentGame.status === 'Completed') {
+            if(this.props.game.currentGame.results.won) {
+                OpenWonModal(this.props)
+            }else {
+                OpenLostModal(this.props)
+            }
+        }
     }
 
     onNavigatorEvent = (event) => {
@@ -41,10 +48,17 @@ class QuizeModal extends Component {
     }
 
     answerSelectHandler = (answer) => {
+        if(updatedAnswers.length + 1 >= this.props.game.currentGame.questions.length) {
+            alert('Game is over')
+            this.props.submitAnswers([...this.state.answers, answer])
+            return;
+        }
         this.setState(prevState => {
             return {
                 ...prevState,
-                selectedAnswer: answer
+                currentQuestion: this.props.game.currentGame.questions[prevState.answers.length + 1],
+                selectedAnswer: answer,
+                answers: [...prevState.answers, answer]
             }
         })
     }
@@ -54,11 +68,11 @@ class QuizeModal extends Component {
     }
 
     render() {
-        const answers = this.state.quize.answers.map(answer => {
+        const answers = this.state.currentQuestion.answers.map(answer => {
             return (
                 <View key={answer.id} style={[styles.answerWrapper, this.isActive(answer.id) ? styles.activeAnswer : null]}>
                     <TouchableOpacity onPress={() => this.answerSelectHandler(answer)}>
-                        <Text style={[styles.answerText, this.isActive(answer.id) ? styles.activeAnswer : null]}>{answer.text}</Text>
+                        <Text style={[styles.answerText, this.isActive(answer.id) ? styles.activeAnswer : null]}>{answer.answer}</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -67,7 +81,7 @@ class QuizeModal extends Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <View style={styles.questionWrapper}>
-                        <Text style={styles.questionText}>{this.state.quize.questinon}</Text>
+                        <Text style={styles.questionText}>{this.state.currentQuestion.question}</Text>
                     </View>
                     <View style={styles.answersWrapper}>
                        {answers}
@@ -88,7 +102,7 @@ class QuizeModal extends Component {
                         </View>
                     </View>
                     <View style={styles.counterWrapper}>
-                        <Text style={styles.counterText}>3 of 30</Text>
+                        <Text style={styles.counterText}>{this.state.answers.length + 1} of {this.props.game.currentGame.questions.length}</Text>
                     </View>
                 </View>
             </View>
@@ -96,6 +110,20 @@ class QuizeModal extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        game: state.game
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        submitAnswers: (answers) => dispatch(SubmitAnswers(answers))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(QuizeModal);
 
 const styles = StyleSheet.create({
     container: {
@@ -188,4 +216,3 @@ const styles = StyleSheet.create({
     }
   });
   
-export default QuizeModal;

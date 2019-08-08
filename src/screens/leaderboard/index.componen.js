@@ -1,89 +1,22 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, FlatList} from 'react-native'
-import NavButonControll from '../services/navButtonsConroller'
+import {View, Text, Image, StyleSheet, FlatList} from 'react-native';
+import NavButonControll from '../services/navButtonsConroller';
+import {connect} from 'react-redux';
+import { FetchLeaderBoard } from '../../services/store/actions/gamestatus';
 
 class LeaderboardScreen extends Component {
     state = {
-        active: 'item3',
-        leaderboard: [
-            {
-                key: "item1",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 1
-                }
-            },
-            {
-                key: "item2",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 2
-                }
-            },
-            {
-                key: "item3",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 3
-                }
-            },
-            {
-                key: "item4",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 4
-                }
-            },
-            {
-                key: "item5",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 5
-                }
-            },
-            {
-                key: "item6",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 5
-                }
-            },
-            {
-                key: "item7",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 5
-                }
-            },
-            {
-                key: "item8",
-                value: {
-                    name: "John Doe",
-                    avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931296/restaurant/backgrounds/katie-smith-104748-unsplash.jpg"},
-                    points: 342,
-                    position: 5
-                }
-            }
-        ]
+        active: 'item3'
     }
     constructor(props) {
         super(props)
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     }
+
+    componentWillMount = () => {
+        this.props.fetchLeaderboard()
+    }
+
 
     onNavigatorEvent = (event) => {
         NavButonControll(event, this.props)
@@ -94,7 +27,7 @@ class LeaderboardScreen extends Component {
             <View style={styles.container}>
                 <FlatList 
                     style={styles.flatlist}
-                    data={this.state.leaderboard}
+                    data={this.props.gameStatus.leaderboard}
                     renderItem={(info) => {
                         return (
                             <View style={styles.wrapper}>
@@ -120,6 +53,21 @@ class LeaderboardScreen extends Component {
         )
     }
 }
+
+
+const mapStateToProps = state => {
+    return {
+        gameStatus: state.gameStatus
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        fetchLeaderboard: () => dispatch(FetchLeaderBoard())
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(LeaderboardScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -192,5 +140,5 @@ const styles = StyleSheet.create({
     }
   });
 
-export default LeaderboardScreen;
+
   

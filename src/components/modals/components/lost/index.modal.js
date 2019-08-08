@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native'
 import NavButonControll from '../../../../screens/services/navButtonsConroller';
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
 
 class LostModal extends Component {
 
@@ -29,7 +30,7 @@ class LostModal extends Component {
                         <Text style={styles.disappointmentText}>Better luck next time!</Text>
                     </View>
                     <View style={styles.lostPointsWrapper}>
-                        <Text style={styles.lostPoints}>100</Text>
+                        <Text style={styles.lostPoints}>{this.props.game.currentGame.results.points}</Text>
                     </View>
                     <View style={styles.lostPointsTextWrapper}>
                         <Text style={styles.lostPointsText}>Points Were removed</Text>
@@ -40,6 +41,14 @@ class LostModal extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        game: state.game
+    }
+}
+
+export default connect(mapStateToProps)(LostModal);
 
 const styles = StyleSheet.create({
     container: {
@@ -110,5 +119,4 @@ const styles = StyleSheet.create({
     }
   });
   
-  
-export default LostModal;
+

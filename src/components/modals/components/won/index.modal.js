@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native'
 import NavButonControll from '../../../../screens/services/navButtonsConroller'
 import Icon from 'react-native-vector-icons/Ionicons'
+import {connect} from 'react-redux'
 
 class WonModal extends Component {
     constructor(props){
@@ -28,7 +29,7 @@ class WonModal extends Component {
                         <Text style={styles.congratulationText}>Congratulations!</Text>
                     </View>
                     <View style={styles.addedPointsWrapper}>
-                        <Text style={styles.addedPoints}>100</Text>
+                        <Text style={styles.addedPoints}>{this.props.game.currentGame.results.points}</Text>
                     </View>
                     <View style={styles.addedPointsTextWrapper}>
                         <Text style={styles.addedPointsText}>Points Were added</Text>
@@ -39,6 +40,14 @@ class WonModal extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        game: state.game
+    }
+}
+
+export default connect(mapStateToProps)(WonModal);
 
 const styles = StyleSheet.create({
     container: {
@@ -109,4 +118,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default WonModal;
+
