@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView} from 'react-native'
 import NavButonControll from '../services/navButtonsConroller'
 import DefaultInput from '../../components/input/index.component'
+import {connect} from 'react-redux';
+import { SendChallengeReq } from '../../services/store/actions/game';
 
 class ChallengeScreen extends Component {
 
@@ -28,11 +30,24 @@ class ChallengeScreen extends Component {
     }
 
     onInputHandler = (field, value) => {
-
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                inputs: {
+                    ...prevState.inputs,
+                    [field]: {
+                        value: value
+                    }
+                }
+            }
+        })
     }
 
     onChallengeHandler = () => {
-        alert('challenge started')
+        const username = this.state.inputs.username.value;
+        const level = this.state.inputs.level.value;
+        const points = this.state.inputs.level.value;
+        this.props.sendChallengeReq(username, level, points)
     }
     
     render() {
@@ -65,9 +80,9 @@ class ChallengeScreen extends Component {
                         <View style={styles.players}>
                             <View style={styles.playersPlayer}>
                                 <View style={styles.playersAvatarWrapper}>
-                                    <Image style={styles.playersAvatar} source={{uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"}}/>
+                                    <Image style={styles.playersAvatar} source={this.props.profile.avatar}/>
                                 </View>
-                                <Text style={styles.playersName}>Aliakbar Sultani</Text>
+                                <Text style={styles.playersName}>{this.props.profile.firstName + " " + this.props.profile.lastName}</Text>
                             </View>
                             <Text style={styles.vsText}>VS</Text>
                             <View style={styles.playersPlayer}>
@@ -91,6 +106,21 @@ class ChallengeScreen extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        game: state.game,
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        sendChallengeReq: (username, level, points) => dispatch(SendChallengeReq(username, level, points))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ChallengeScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -185,5 +215,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ChallengeScreen;
+
   

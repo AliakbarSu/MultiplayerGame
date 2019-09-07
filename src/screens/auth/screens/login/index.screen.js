@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, ScrollView} from 'react-native'
+import { SignIn, autoLogin } from '../../../../services/store/actions/auth';
+import { connect } from 'react-redux';
 
 class LoginScreen extends Component {
 
@@ -14,8 +16,10 @@ class LoginScreen extends Component {
         }
     }
 
-    login() {
+    componentDidMount = () => {
+        this.props.autoLogin()
     }
+
 
     textChangeHandler = (value, input) => {
         this.setState(prevState => {
@@ -30,7 +34,12 @@ class LoginScreen extends Component {
     }
 
     onLoginHandler = () => {
-
+        console.log('loging in')
+        const authData = {
+            username: this.state.inputs.username.value,
+            password: this.state.inputs.password.value
+        }
+        this.props.login(authData)
     }
 
     onSignupHandler = () => {
@@ -99,7 +108,22 @@ class LoginScreen extends Component {
     }
 }
 
-export default LoginScreen
+const mapStateToProps = (state) => {
+    return {
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        login: (authData) => dispatch(SignIn(authData)),
+        autoLogin: () => dispatch(autoLogin())
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapActionsToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
     container: {

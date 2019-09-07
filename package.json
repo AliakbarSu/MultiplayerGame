@@ -9,6 +9,9 @@
     "android": "react-native run-android"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.0.1",
+    "apollo-boost": "^0.4.4",
+    "graphql": "^14.4.2",
     "react": "16.8.3",
     "react-native": "0.59.10",
     "react-native-image-picker": "^0.28.0",
@@ -17,7 +20,8 @@
     "react-native-vector-icons": "^6.6.0",
     "react-redux": "^6.0.1",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",

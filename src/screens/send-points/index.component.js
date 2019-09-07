@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import NavButonControll from '../services/navButtonsConroller'
+import { connect } from 'react-redux';
+import { SendPoints } from '../../services/store/actions/points';
 
 class SendPointsScreen extends Component {
 
@@ -40,7 +42,7 @@ class SendPointsScreen extends Component {
     }
 
     onSendHandler = () => {
-        alert('send')
+        this.props.sendPoints(this.state.inputs.reciep.value, this.state.inputs.points.value)
     }
 
     render() {
@@ -70,7 +72,7 @@ class SendPointsScreen extends Component {
                     <View style={styles.buttonWrapper}>
                         <View style={styles.button}>
                             <TouchableOpacity onPress={this.onSendHandler}>
-                                <Text style={styles.buttonText}>Send</Text>
+                                <Text style={styles.buttonText}>Send!</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -80,6 +82,20 @@ class SendPointsScreen extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        sendPoints: (username, points) => dispatch(SendPoints(username, points))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SendPointsScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -147,5 +163,5 @@ const styles = StyleSheet.create({
     }
   });
 
-export default SendPointsScreen;
+
   

@@ -24,7 +24,9 @@ class ChallengeRequest extends Component {
 
     onRejectHandler = () => {
         this.props.rejectRequest()
-        this.props.navigator.push({screen: 'click.HomeScreen'})
+        this.props.navigator.dismissModal({
+            animationType: 'slide-down'
+        });
     }
 
     render() {

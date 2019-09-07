@@ -1,25 +1,43 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions, Platform} from 'react-native';
 import NavButonControll from '../services/navButtonsConroller'
 import UserNav from '../../components/user-nav/index';
-import MapView from 'react-native-maps';
+import MapView, {AnimatedRegion, Marker} from 'react-native-maps';
 import {connect }from 'react-redux';
 import { OpenPlayModal, OpenWonModal, OpenLostModal, OpenQuizeModal, OpenChallengeRequest } from '../services/modals';
 import {AddChallengeRequest} from '../../services/store/actions/game';
 import {FetchProfile} from '../../services/store/actions/profile';
 import { UpdateGameStatus } from '../../services/store/actions/gamestatus';
+import io from 'socket.io-client'
+import { locationChanged } from '../../services/connection/connection';
+
+const LATITUDE_DELTA = 0.009;
+const LONGITUDE_DELTA = 0.009;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
 
 class HomeScreen extends Component {
+    marker = null;
+    watchID = null;
 
     state = {
         focusedLocation: {
-            latitude: 37.7900352,
-            longitude: -122.4013726,
-            latitudeDelta: 0.0122,
+            latitude: LATITUDE,
+            longitude: LONGITUDE,
+            latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: 
                 Dimensions.get('window').width /
-                Dimensions.get('window').height * 0.0122
-        }
+                Dimensions.get('window').height * LATITUDE_DELTA
+        },
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        prevLatLng: {},
+        coordinate: new AnimatedRegion({
+            latitude: LATITUDE,
+            longitude: LONGITUDE,
+            latitudeDelta: 0,
+            longitudeDelta: 0
+        })
     }
 
     constructor(props) {
@@ -32,32 +50,61 @@ class HomeScreen extends Component {
     }
 
     componentDidMount = () => {
-        // setTimeout(() => {
-        //     // OpenPlayModal(this.props)
-        //     // OpenWonModal(this.props)
-        //     // OpenLostModal(this.props)
-        //     // OpenQuizeModal(this.props)
-        //     this.props.AddChallengeRequest({
-        //         points: 33,
-        //         level: 2,
-        //         opponent: {
-        //             name: 'John',
-        //             avatar: {uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"},
-        //             win: 22,
-        //             lost: 12,
-        //             level: 5
-        //         },
-        //         time: 3,
-        //         status: 'Pending'
-        //     })
-        //     OpenChallengeRequest(this.props)
-        // }, 5000)
+        this.watchID = navigator.geolocation.watchPosition(
+            position => {
+              const { coordinate } =   this.state;
+              const { latitude, longitude } = position.coords;
+        
+              const newCoordinate = {
+                latitude,
+                longitude
+              };
 
+              if (Platform.OS === "android") {
+                if (this.marker) {
+                this.marker._component.animateMarkerToCoordinate(
+                  newCoordinate,
+                  500
+                 );
+                }
+              } else {
+                coordinate.timing(newCoordinate).start();
+              }
+
+              this.setState({
+                latitude,
+                longitude,
+                prevLatLng: newCoordinate
+              });
+
+
+              locationChanged(latitude, longitude).then(res => {
+                  if(res !== null && this.props.game.challengeRequest.status == null) {
+                      this.props.AddChallengeRequest(res)
+                      OpenChallengeRequest(this.props)
+                  }
+              })
+            },
+            error => console.log(error),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+         );
         this.props.FetchProfile()
     }
 
+    getMapRegion = () => ({
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+    });
+
     onStatusChangeHandler = (status) => {
         this.props.updateStatus(status)
+    }
+
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchID);
+        console.log('Home: ComponentWillUnmount')
     }
 
     render() {
@@ -70,7 +117,15 @@ class HomeScreen extends Component {
                         gameStatus={this.props.gameStatus}
                         statusChanged={this.onStatusChangeHandler}/>
                 </View>
-                <MapView initialRegion={this.state.focusedLocation} style={styles.map}/>
+                <MapView 
+                    showUserLocation
+                    followUserLocation
+                    loadingEnabled
+                    region={this.getMapRegion()} style={styles.map}>
+                    <Marker.Animated
+                            ref={marker => this.marker = marker}
+                            coordinate={this.state.coordinate}/>
+                </MapView>
             </View>
         )
     }
@@ -79,7 +134,8 @@ class HomeScreen extends Component {
 const mapStateToProps = (state) => {
     return {
         gameStatus: state.gameStatus,
-        profile: state.profile
+        profile: state.profile,
+        game: state.game
     }
 }
 

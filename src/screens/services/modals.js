@@ -1,7 +1,8 @@
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Navigation} from 'react-native-navigation'
 
 export const OpenPlayModal = async (props) => {
-    props.navigator.showModal({
+    Navigator.showModal({
         screen: 'click.PlayModal', // unique ID registered with Navigation.registerScreen
         title: 'Play', // title of the screen as appears in the nav bar (optional)
         navigatorButtons: {
@@ -18,7 +19,7 @@ export const OpenPlayModal = async (props) => {
 }
 
 export const OpenWonModal = async (props) => {
-    props.navigator.showModal({
+    Navigation.showModal({
         screen: 'click.WonModal', // unique ID registered with Navigation.registerScreen
         title: 'You Won!', // title of the screen as appears in the nav bar (optional)
         navigatorButtons: {
@@ -35,7 +36,7 @@ export const OpenWonModal = async (props) => {
 }
 
 export const OpenLostModal = async (props) => {
-    props.navigator.showModal({
+    Navigation.showModal({
         screen: 'click.LostModal', // unique ID registered with Navigation.registerScreen
         title: 'You Lost :(', // title of the screen as appears in the nav bar (optional)
         navigatorButtons: {
@@ -53,7 +54,7 @@ export const OpenLostModal = async (props) => {
 
 
 export const OpenQuizeModal = async (props) => {
-    props.navigator.showModal({
+    Navigation.showModal({
         screen: 'click.QuizeModal', // unique ID registered with Navigation.registerScreen
         title: 'Questions', // title of the screen as appears in the nav bar (optional)
         navigatorButtons: {
@@ -70,7 +71,7 @@ export const OpenQuizeModal = async (props) => {
 }
 
 export const OpenChallengeRequest = async (props) => {
-    props.navigator.showModal({
+    Navigation.showModal({
         screen: 'click.ChallengeRequestModal', // unique ID registered with Navigation.registerScreen
         title: 'Challenge Request', // title of the screen as appears in the nav bar (optional)
         navigatorButtons: {

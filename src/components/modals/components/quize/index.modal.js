@@ -48,7 +48,7 @@ class QuizeModal extends Component {
     }
 
     answerSelectHandler = (answer) => {
-        if(updatedAnswers.length + 1 >= this.props.game.currentGame.questions.length) {
+        if(this.state.answers.length + 1 >= this.props.game.currentGame.questions.length) {
             alert('Game is over')
             this.props.submitAnswers([...this.state.answers, answer])
             return;

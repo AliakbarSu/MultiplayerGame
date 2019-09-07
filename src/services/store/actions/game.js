@@ -1,3 +1,6 @@
+import { StartLoading, StopLoading } from "./UI";
+import { OpenQuizeModal } from "../../../screens/services/modals";
+
 export const ADD_CHALLENGE_REQUEST = 'ADD_CHALLENGE_REQUEST';
 export const CLEAR_CHALLENGE_REQUEST = 'CLEAR_CHALLENGE_REQUEST';
 export const ACCEPT_CHALLENGE_REQUEST = 'ACCEPT_CHALLENGE_REQUEST';
@@ -77,6 +80,21 @@ export const SendChallenge = () => {
             dispatch(StartGame({id: 'fjaksf2jsfj', questions: dummyQuestions}))
         }else {
             
+        }
+    }
+}
+
+export const SendChallengeReq = (username, level, points) => {
+    return dispatch => {
+        // make api call
+        dispatch(StartLoading({heading: 'Sending Challenge Request', body: 'Awaiting for the request to be accepted', code: 0}))
+        const num = Math.random();
+        if(num > 0.5) {
+            dispatch(StartGame({id: 'fjaksf2sfj', questions: dummyQuestions}))
+            dispatch(StopLoading())
+            OpenQuizeModal()
+        }else {
+            dispatch(StopLoading())
         }
     }
 }

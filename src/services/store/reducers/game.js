@@ -1,4 +1,4 @@
-import { ADD_CHALLENGE_REQUEST, ACCEPT_CHALLENGE_REQUEST, SET_CHALLENGE_QUESTIONS, SET_GAME_RESULTS, START_GAME, GIVE_UP_GAME } from "../actions/game";
+import { ADD_CHALLENGE_REQUEST, ACCEPT_CHALLENGE_REQUEST, SET_CHALLENGE_QUESTIONS, SET_GAME_RESULTS, START_GAME, GIVE_UP_GAME, CLEAR_CHALLENGE_REQUEST } from "../actions/game";
 
 const initialState = {
     currentGame: {
@@ -43,6 +43,23 @@ const GameReducer = (state = initialState, action ) => {
                 challengeRequest: {
                     ...state.challengeRequest,
                     status: 'Accepted'
+                }
+            }
+        case CLEAR_CHALLENGE_REQUEST:
+            return {
+                ...state,
+                challengeRequest: {
+                    points: null,
+                    level: null,
+                    opponent: {
+                        name: '',
+                        avatar: '',
+                        win: 0,
+                        lost: 0,
+                        level: 0
+                    },
+                    time: 0,
+                    status: null
                 }
             }
         case START_GAME:

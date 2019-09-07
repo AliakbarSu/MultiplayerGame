@@ -21,6 +21,7 @@ import QuizeModal from './src/components/modals/components/quize/index.modal';
 import ChallengeRequestModal from './src/components/modals/components/challenge-request/index.modal'
 import SettingsDrawer from './src/components/settingsDrawer/index.drawer';
 import React from 'react';
+import {connect} from './src/services/connection/connection'
 
 const store = configureStore();
 
@@ -48,17 +49,18 @@ Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provid
 Navigation.registerComponent("click.ChallengeRequestModal", () => ChallengeRequestModal, store, Provider);
 
 
+// start connection
+connect()
 
-
-StartApp()
+// StartApp()
 // Start an App
-// Navigation.startSingleScreenApp({
-//   screen: {
-//     screen: 'click.ProfileScreen',
-//     title: "Home"
-//   },
-//   appStyle: {
-//     navBarBackgroundColor: '#FF821A',
-//     navBarTextColor: '#FFFFFF'
-//   }
-// })
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'click.LoginScreen',
+    title: "Login"
+  },
+  appStyle: {
+    navBarBackgroundColor: '#FF821A',
+    navBarTextColor: '#FFFFFF'
+  }
+})

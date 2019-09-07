@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import NavButonControll from '../services/navButtonsConroller'
+import {connect} from 'react-redux';
+import { SendPoints } from '../../services/store/actions/points';
 
 class PointsScreen extends Component {
     constructor(props) {
@@ -13,15 +15,15 @@ class PointsScreen extends Component {
     }
 
     onRedeemHandler = () => {
-        alert('redeem')
+        this.props.navigator.push({screen: 'click.RedeemScreen'})
     }
 
     onPointSendHandler = () => {
-        alert('send')
+        this.props.navigator.push({screen: 'click.SendPointsScreen'})
     }
 
     onBuyPointsHandler = () => {
-        alert('buy more')
+        this.props.navigator.push({screen: 'click.BuyPointsScreen'})
     }
 
     render() {
@@ -29,7 +31,7 @@ class PointsScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <View style={styles.pointsWrapper}>
-                        <Text style={styles.pointsText}>400</Text>
+                        <Text style={styles.pointsText}>{this.props.profile.points}</Text>
                         <Text style={styles.labels}>points</Text>
                     </View>
                     <View style={styles.valueWrapper}>
@@ -59,6 +61,20 @@ class PointsScreen extends Component {
     }
     
 }
+
+const mapStateToProps = state => {
+    return {
+        profile: state.profile
+    }
+}
+
+const mapActionsToProps = dispatch => {
+    return {
+        sendPoints: (username, points) => dispatch(SendPoints(username, points))
+    }
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(PointsScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -136,4 +152,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default PointsScreen;
+

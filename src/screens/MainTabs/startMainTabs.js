@@ -35,9 +35,9 @@ const startApp = async () => {
                     }
                 },
                 {
-                    screen: "click.RedeemScreen",
-                    label: "Redeem",
-                    title: "Redeem",
+                    screen: "click.PointsScreen",
+                    label: "Points",
+                    title: "Points",
                     icon: await Icon.getImageSource('md-map', 30),
                     navigatorButtons: {
                         leftButtons: leftButtons,
@@ -55,9 +55,9 @@ const startApp = async () => {
                     }
                 },
                 {
-                    screen: "click.CheckoutScreen",
-                    label: "Checkout",
-                    title: "Checkout",
+                    screen: "click.ChallengeScreen",
+                    label: "Challenge",
+                    title: "Challenge",
                     icon: await Icon.getImageSource('md-cash', 30),
                     navigatorButtons: {
                         leftButtons: leftButtons,
