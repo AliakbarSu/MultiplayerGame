@@ -21,46 +21,53 @@ import QuizeModal from './src/components/modals/components/quize/index.modal';
 import ChallengeRequestModal from './src/components/modals/components/challenge-request/index.modal'
 import SettingsDrawer from './src/components/settingsDrawer/index.drawer';
 import React from 'react';
-import {connect} from './src/services/connection/connection'
+import { ApolloProvider } from '@apollo/react-hooks';
 
-const store = configureStore();
+
+
+// const store = configureStore();
 
 // Register Screens
 
-Navigation.registerComponent("click.LoginScreen", () => LoginScreen, store, Provider);
-Navigation.registerComponent("click.SignupScreen", () => SignupScreen, store, Provider);
-Navigation.registerComponent("click.LeaderBoardScreen", () => LeaderBoardScreen, store, Provider);
-Navigation.registerComponent("click.CheckoutScreen", () => CheckoutScreen, store, Provider);
-Navigation.registerComponent("click.ProfileScreen", () => ProfileScreen, store, Provider);
-Navigation.registerComponent("click.PointsScreen", () => PointsScreen, store, Provider);
-Navigation.registerComponent("click.RedeemScreen", () => RedeemScreen, store, Provider);
-Navigation.registerComponent("click.SendPointsScreen", () => SendPointsScreen, store, Provider);
-Navigation.registerComponent("click.BuyPointsScreen", () => BuyPointsScreen, store, Provider);
-Navigation.registerComponent("click.ChallengeScreen", () => ChallengeScreen, store, Provider);
-Navigation.registerComponent("click.SideDrawerScreen", (props) => SideDrawer, store, Provider);
-Navigation.registerComponent("click.SettingsDrawer", (props) => SettingsDrawer, store, Provider);
-Navigation.registerComponent("click.HomeScreen", () => HomeScreen, store, Provider);
+// Navigation.registerComponent("click.LoginScreen", () => LoginScreen, store, Provider);
+// Navigation.registerComponent("click.SignupScreen", () => SignupScreen, store, Provider);
+// Navigation.registerComponent("click.LeaderBoardScreen", () => LeaderBoardScreen, store, Provider);
+// Navigation.registerComponent("click.CheckoutScreen", () => CheckoutScreen, store, Provider);
+// Navigation.registerComponent("click.ProfileScreen", () => ProfileScreen, store, Provider);
+// Navigation.registerComponent("click.PointsScreen", () => PointsScreen, store, Provider);
+// Navigation.registerComponent("click.RedeemScreen", () => RedeemScreen, store, Provider);
+// Navigation.registerComponent("click.SendPointsScreen", () => SendPointsScreen, store, Provider);
+// Navigation.registerComponent("click.BuyPointsScreen", () => BuyPointsScreen, store, Provider);
+// Navigation.registerComponent("click.ChallengeScreen", () => ChallengeScreen, store, Provider);
+// Navigation.registerComponent("click.SideDrawerScreen", (props) => SideDrawer, store, Provider);
+// Navigation.registerComponent("click.SettingsDrawer", (props) => SettingsDrawer, store, Provider);
+// Navigation.registerComponent("click.HomeScreen", () => HomeScreen, store, Provider);
 
-// Register Modals
-Navigation.registerComponent("click.PlayModal", () => PlayModal, store, Provider);
-Navigation.registerComponent("click.WonModal", () => WonModal, store, Provider);
-Navigation.registerComponent("click.LostModal", () => LostModal, store, Provider);
-Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provider);
-Navigation.registerComponent("click.ChallengeRequestModal", () => ChallengeRequestModal, store, Provider);
+// // Register Modals
+// Navigation.registerComponent("click.PlayModal", () => PlayModal, store, Provider);
+// Navigation.registerComponent("click.WonModal", () => WonModal, store, Provider);
+// Navigation.registerComponent("click.LostModal", () => LostModal, store, Provider);
+// Navigation.registerComponent("click.QuizeModal", () => QuizeModal, store, Provider);
+// Navigation.registerComponent("click.ChallengeRequestModal", () => ChallengeRequestModal, store, Provider);
 
+import AppContainer from './src/navigation/main'
 
-// start connection
-connect()
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
+
 
 // StartApp()
 // Start an App
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'click.LoginScreen',
-    title: "Login"
-  },
-  appStyle: {
-    navBarBackgroundColor: '#FF821A',
-    navBarTextColor: '#FFFFFF'
-  }
-})
+// Navigation.startSingleScreenApp({
+//   screen: {
+//     screen: 'click.LoginScreen',
+//     title: "Login"
+//   },
+//   appStyle: {
+//     navBarBackgroundColor: '#FF821A',
+//     navBarTextColor: '#FFFFFF'
+//   }
+// })

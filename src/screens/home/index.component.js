@@ -5,11 +5,10 @@ import UserNav from '../../components/user-nav/index';
 import MapView, {AnimatedRegion, Marker} from 'react-native-maps';
 import {connect }from 'react-redux';
 import { OpenPlayModal, OpenWonModal, OpenLostModal, OpenQuizeModal, OpenChallengeRequest } from '../services/modals';
-import {AddChallengeRequest} from '../../services/store/actions/game';
+import {AddChallengeRequest, UpdateLocation} from '../../services/store/actions/game';
 import {FetchProfile} from '../../services/store/actions/profile';
 import { UpdateGameStatus } from '../../services/store/actions/gamestatus';
-import io from 'socket.io-client'
-import { locationChanged } from '../../services/connection/connection';
+import {connect as wbConnect} from '../../services/connection/connection'
 
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
@@ -50,6 +49,9 @@ class HomeScreen extends Component {
     }
 
     componentDidMount = () => {
+
+        wbConnect('5d604ed28e826a0996579b36')
+
         this.watchID = navigator.geolocation.watchPosition(
             position => {
               const { coordinate } =   this.state;
@@ -77,17 +79,15 @@ class HomeScreen extends Component {
                 prevLatLng: newCoordinate
               });
 
+              // Update location
+              this.props.updateLocation({lat: latitude, long: longitude})
 
-              locationChanged(latitude, longitude).then(res => {
-                  if(res !== null && this.props.game.challengeRequest.status == null) {
-                      this.props.AddChallengeRequest(res)
-                      OpenChallengeRequest(this.props)
-                  }
-              })
             },
             error => console.log(error),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
          );
+
+        // Fetch user Profile
         this.props.FetchProfile()
     }
 
@@ -144,7 +144,8 @@ const mapActionsToProps = (dispatch) => {
     return {
         AddChallengeRequest: (challengeData) => dispatch(AddChallengeRequest(challengeData)),
         FetchProfile: () => dispatch(FetchProfile()),
-        updateStatus: status => dispatch(UpdateGameStatus(status))
+        updateStatus: status => dispatch(UpdateGameStatus(status)),
+        updateLocation: (location) => dispatch(UpdateLocation(location))
     }
 }
 

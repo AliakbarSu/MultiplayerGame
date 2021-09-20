@@ -6,11 +6,25 @@ import com.reactnativenavigation.controllers.SplashActivity;
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback; // <- add this import
 import com.facebook.react.modules.core.PermissionListener; // <- add this import
 
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+
 
 public class MainActivity extends SplashActivity implements OnImagePickerPermissionsCallback {
   private PermissionListener listener; // <- add this attribute
 
   // Your methods here
+
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegate(this, getMainComponentName()) {
+      @Override
+        protected ReactRootView createRootView() {
+        return new RNGestureHandlerEnabledRootView(MainActivity.this);
+      }
+    };
+  }
 
   // Copy from here
 

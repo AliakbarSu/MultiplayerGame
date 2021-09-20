@@ -1,11 +1,31 @@
 import { StartLoading, StopLoading } from "./UI";
 import { OpenQuizeModal } from "../../../screens/services/modals";
+import {socket} from '../../connection/connection';
 
+export const UPDATE_LOCATION = 'UPDATE_LOCATION';
 export const ADD_CHALLENGE_REQUEST = 'ADD_CHALLENGE_REQUEST';
 export const CLEAR_CHALLENGE_REQUEST = 'CLEAR_CHALLENGE_REQUEST';
 export const ACCEPT_CHALLENGE_REQUEST = 'ACCEPT_CHALLENGE_REQUEST';
 export const START_GAME = 'START_GAME';
 export const SET_GAME_RESULTS = 'SET_GAME_RESULTS';
+
+
+
+
+
+export const UpdateLocation = (loc) => {
+    return (dispatch, getStore) => {
+        
+        const location = {
+            type: 'Point',
+            coordinates: [loc.long, loc.lat]
+        }
+        socket.emit('locationChanged', {location: location, token: getStore().auth.token}, (res) => {
+            console.log(res)
+            dispatch({type: UPDATE_LOCATION})
+        })
+    }
+}
 
 
 

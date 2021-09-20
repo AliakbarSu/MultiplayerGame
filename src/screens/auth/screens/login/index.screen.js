@@ -27,7 +27,7 @@ class LoginScreen extends Component {
                 ...prevState,
                 inputs: {
                     ...prevState.inputs,
-                    [input]: {value: value}
+                    [input]: {value: value} 
                 }
             }
         })
